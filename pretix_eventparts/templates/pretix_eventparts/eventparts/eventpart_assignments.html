@@ -1,0 +1,79 @@
+
+
+{% load i18n %}
+{% load eventurl %}
+{% load rich_text %}
+<div class="panel panel-default items">
+    <div class="panel-heading">
+        <div class="pull-right flip">
+            {% if "can_change_orders" in request.eventpermset %}
+                <a href="{% url "plugins:pretix_eventparts:eventpart.assign" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+                    <span class="fa fa-edit"></span>
+                    {% trans "Change Eventpart assignment" %}
+                </a>
+            {% endif %}
+        </div>
+        <h3 class="panel-title">
+            {% trans "Eventparts" %}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <h3 class="panel-title"> </h3>
+        <div class="row-fluid product-row eventpart-row" >
+            <div class="col-md-9 col-xs-6">
+                <h4>Start</h4>
+                {% with e=eventparts.start %}
+                    {% if e %}
+                    <dl>
+                        <dt>{% trans "Name" %}</dt>
+                        <dd>{{e.name}}</dd>
+
+                        <dt>{% trans "Description" %}</dt>
+                        <dd>{{e.description|linebreaksbr|rich_text_snippet }}</dd>
+
+                        <dt>{% trans "Category" %}</dt>
+                        <dd>{{e.category}}</dd>
+                    </dl>
+                    {% else %}
+                        <em>{% trans "not selected" %}</em>
+                    {% endif %}
+                {% endwith %} 
+                <h4>Middle</h4>
+                {% with e=eventparts.middle %}
+                    {% if e %}
+                    <dl>
+                        <dt>{% trans "Name" %}</dt>
+                        <dd>{{e.name}}</dd>
+
+                        <dt>{% trans "Description" %}</dt>
+                        <dd>{{e.description|linebreaksbr|rich_text_snippet}}</dd>
+
+                        <dt>{% trans "Category" %}</dt>
+                        <dd>{{e.category}}</dd>
+                    </dl>
+                    {% else %}
+                        <em>{% trans "not selected" %}</em>
+                    {% endif %}
+                {% endwith %} 
+                <h4>End</h4>
+                {% with e=eventparts.end %}
+                    {% if e %}
+                    <dl>
+                        <dt>{% trans "Name" %}</dt>
+                        <dd>{{e.name}}</dd>
+
+                        <dt>{% trans "Description" %}</dt>
+                        <dd>{{e.description|linebreaksbr|rich_text_snippet}}</dd>
+
+                        <dt>{% trans "Category" %}</dt>
+                        <dd>{{e.category}}</dd>
+                    </dl>
+                    {% else %}
+                        <em>{% trans "not selected" %}</em>
+                    {% endif %}
+                {% endwith %} 
+            
+            </div>
+        </div>
+    </div>
+</div>

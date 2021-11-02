@@ -1,0 +1,134 @@
+{% extends "pretixcontrol/items/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load money %}
+{% load eventurl %}
+{% block title %}{% trans "Eventpart" %}{% endblock %}
+{% block inside %}
+	<h1>{% trans "Eventpart" %}</h1>
+
+    <div class="panel panel-default items">
+        <div class="panel-heading">
+            
+            <h3 class="panel-title">
+                {% trans "General Information" %}
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form action="" method="post" class="form-horizontal">
+                {% csrf_token %}
+                {% bootstrap_form_errors form %}
+                <div class="row-fluid">
+                        <fieldset>
+                            {% bootstrap_field form.name layout="control" %}
+                            {% bootstrap_field form.description layout="control" %}
+                            {% bootstrap_field form.capacity layout="control" %}
+                            {% bootstrap_field form.category layout="control" %}
+                            {% bootstrap_field form.type layout="control" %}
+                        </fieldset>
+                        <div class="form-group submit-group">
+                            <button type="submit" class="btn btn-primary btn-save">
+                                {% trans "Save" %}
+                            </button>
+                        </div>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default items">
+        <div class="panel-heading">
+            
+            <h4 class="panel-title" >
+                {% trans "Assigned Groups" %}
+            
+            <span class="pull-right flip">
+                <button type="button" class="js-copy-answers btn btn-default btn-xs btn-clipboard" data-clipboard-text="{{ eventpart.contacts|join:'; ' }}">
+                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                    {% trans "Copy email adresses" %}
+                </button>
+            </span>
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="row-fluid">
+                <div class="">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-orders">
+                            <thead>
+                            <tr>
+                                <th>{% trans "Order code" %}</th> 
+                                <th>{% trans "User" %}</th>
+                                <th>{% trans "Order date" %}</th>
+                                <th class="text-right flip">{% trans "Positions" %}</th>
+                                <th class="text-right flip">{% trans "Status" %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for o in eventpart.orders.all %}
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <a
+                                                    href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=o.code %}">
+                                                {{ o.code }}</a>
+                                        </strong>
+                                        {% if o.testmode %}
+                                            <span class="label label-warning">{% trans "TEST MODE" %}</span>
+                                        {% endif %}
+                                        {% if o.custom_followup_due %}
+                                            <span class="label label-danger">{% blocktrans with date=o.custom_followup_at|date:"SHORT_DATE_FORMAT" context "followup" %}TODO {{ date }}{% endblocktrans %}</span>
+                                        {% elif o.custom_followup_at %}
+                                            <span class="label label-default">{% blocktrans with date=o.custom_followup_at|date:"SHORT_DATE_FORMAT" context "followup" %}TODO {{ date }}{% endblocktrans %}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ o.email|default_if_none:"" }}
+                                        {% if o.invoice_address.name %}
+                                            <br>{{ o.invoice_address.name }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="fa fa-{{ o.sales_channel_obj.icon }} text-muted"
+                                            data-toggle="tooltip" title="{% trans o.sales_channel_obj.verbose_name %}"></span>
+                                        {{ o.datetime|date:"SHORT_DATETIME_FORMAT" }}
+                                    </td>
+                                    <td class="text-right flip">{{ o.count_positions|default_if_none:"0" }}</td>
+                                    <td class="text-right flip">{% include "pretixcontrol/orders/fragment_order_status.html" with order=o %}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            {% if sums %}
+                                <tfoot>
+                                <tr>
+                                    <th>{% trans "Sum over all pages" %}</th>
+                                    <th></th>
+                                    <th>
+                                        {% blocktrans trimmed count s=sums.c %}
+                                            1 order
+                                        {% plural %}
+                                            {{ s }} orders
+                                        {% endblocktrans %}
+                                    </th>
+                                    <th class="text-right flip">
+                                        {% if sums.s|default_if_none:"none" != "none" %}
+                                            {{ sums.s|money:request.event.currency }}
+                                        {% endif %}
+                                    </th>
+                                    <th class="text-right flip">
+                                        {% if sums.pc %}
+                                            {{ sums.pc }}
+                                        {% endif %}
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            {% endif %}
+                        </table>
+                    </div>
+                    </div>
+                </div>
+   </div>
+                </div>
+{% endblock %}

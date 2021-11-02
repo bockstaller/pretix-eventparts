@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pretix",
+            "type": "python",
+            "request": "launch",
+            "program": "./manage.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/../pretix/src",
+            "args": [
+                "runserver",
+            ],
+            "django": true,
+        },
+        {
+            "name": "Pretix: Runperiodic",
+            "type": "python",
+            "request": "launch",
+            "program": "./manage.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/../pretix/src",
+            "args": [
+                "runperiodic",
+            ],
+            "django": true
+        },
+        {
+            "name": "Pretix: Celery",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/../pretix/src",
+            "justMyCode": false,
+            "args": [
+                "-A",
+                "pretix.celery_app",
+                "worker",
+                "-l",
+                "debug",
+                "-P",
+                "solo",
+            ],
+            "preLaunchTask": "Redis"
+        }
+    ],
+}

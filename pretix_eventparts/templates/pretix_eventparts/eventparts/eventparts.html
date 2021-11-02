@@ -1,0 +1,69 @@
+{% extends "pretixcontrol/items/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Eventparts" %}{% endblock %}
+{% block inside %}
+    <h1>{% trans "Eventparts" %}</h1>
+    <p>
+        {% blocktrans trimmed %}
+            You can use Eventparts to segment a customer journey through your event.
+        {% endblocktrans %}
+    </p>
+    {% if eventparts|length == 0 %}
+        <div class="empty-collection">
+            <p>
+                {% blocktrans trimmed %}
+                    You haven't created any Eventparts yet.
+                {% endblocktrans %}
+            </p>
+
+            <a href="{% url "plugins:pretix_eventparts:eventpart.create" organizer=request.event.organizer.slug event=request.event.slug %}"
+                    class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> {% trans "Create a new Eventpart" %}</a>
+        </div>
+    {% else %}
+        <p>
+            <a href="{% url "plugins:pretix_eventparts:eventpart.create" organizer=request.event.organizer.slug event=request.event.slug %}" class="btn btn-default"><i class="fa fa-plus"></i> {% trans "Create a new Eventpart" %}
+            </a>
+        </p>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Capacity" %}</th>
+                    <th>{% trans "Category" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    
+                    <th class="action-col-2"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for e in eventparts %}
+                    <tr>
+                        <td>
+                            <strong><a href="{% url "plugins:pretix_eventparts:eventpart.edit" organizer=request.event.organizer.slug event=request.event.slug eventpart=e.id %}">{{ e.name }}</a></strong>
+                        </td>
+                        <td>
+                            {{ e.used_places }} / {{ e.capacity }}
+                        </td>
+                        <td>
+                            {{ e.category }}
+                        </td>
+                        <td>
+                            {{e.type_name}}
+                        </td>
+                        <td class="text-right flip">
+                            <a href="{% url "plugins:pretix_eventparts:eventpart.edit" organizer=request.event.organizer.slug event=request.event.slug eventpart=e.id %}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="{% url "plugins:pretix_eventparts:eventpart.create" organizer=request.event.organizer.slug event=request.event.slug %}?copy_from={{ e.id }}"
+                               class="btn btn-sm btn-default" title="{% trans "Clone" %}" data-toggle="tooltip">
+                                <span class="fa fa-copy"></span>
+                            </a>
+                            <a href="{% url "plugins:pretix_eventparts:eventpart.delete" organizer=request.event.organizer.slug event=request.event.slug eventpart=e.id %}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "pretixcontrol/pagination.html" %}
+    {% endif %}
+{% endblock %}

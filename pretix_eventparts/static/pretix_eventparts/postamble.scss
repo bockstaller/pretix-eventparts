@@ -1,0 +1,34 @@
+.eventpart-row {
+    padding: 10px 0;
+
+    .count form {
+        display: inline;
+    }
+    .price, .count {
+        text-align: right;
+    }
+    .price small,
+    .availability-box small {
+        display: block;
+        line-height: 1;
+    }
+
+    &.total {
+        border-top: 1px solid $table-border-color;
+    }
+
+    dl {
+        padding-left: 20px;
+        margin-bottom: 0;
+
+        dd {
+            padding-left: 20px;
+        }
+    }
+
+    .addon-signifier {
+        display: inline-block;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+}
