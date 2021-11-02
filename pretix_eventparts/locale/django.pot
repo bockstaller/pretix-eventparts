@@ -1,49 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-03 00:13+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Lukas Bockstaller\n"
-"Language-Team: \n"
-"Language: de\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: pretix_eventparts/__init__.py:16
 msgid "pretix eventparts"
-msgstr "pretix eventparts"
+msgstr ""
 
 #: pretix_eventparts/__init__.py:18
 msgid "Short description"
-msgstr "Kurzbeschreibung"
+msgstr ""
 
 #: pretix_eventparts/forms.py:38
 msgid "Show Eventparts in customers order view"
-msgstr "Veröffentliche Eventparts in der Bestellansicht der Kund:innen"
+msgstr ""
 
 #: pretix_eventparts/forms.py:43
 msgid "Customer facing name of the eventparts section."
-msgstr "Öffentlicher Name des Eventparts."
+msgstr ""
 
 #: pretix_eventparts/forms.py:49
 msgid "Customer facing description of the eventparts."
-msgstr "Öffentliche Beschreibung des Eventparts."
+msgstr ""
 
 #: pretix_eventparts/forms.py:54
 msgid "Name of the first eventpart."
-msgstr "Name des ersten Eventpart."
+msgstr ""
 
 #: pretix_eventparts/forms.py:60
 msgid "Name of the second eventpart."
-msgstr "Name des zweiten Eventpart."
+msgstr ""
 
 #: pretix_eventparts/forms.py:66
 msgid "Name of the third eventpart."
-msgstr "Name des dritten Eventpart."
+msgstr ""
 
 #: pretix_eventparts/models.py:17
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:28
@@ -54,7 +59,7 @@ msgstr "Name des dritten Eventpart."
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:63
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:31
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: pretix_eventparts/models.py:21
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:31
@@ -64,7 +69,7 @@ msgstr "Name"
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:49
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:66
 msgid "Description"
-msgstr "Beschreibung"
+msgstr ""
 
 #: pretix_eventparts/models.py:23
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:34
@@ -75,210 +80,206 @@ msgstr "Beschreibung"
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:69
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:33
 msgid "Category"
-msgstr "Kategorie"
+msgstr ""
 
 #: pretix_eventparts/models.py:24
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:32
 msgid "Capacity"
-msgstr "Plätze"
+msgstr ""
 
 #: pretix_eventparts/models.py:28
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:34
 msgid "Type"
-msgstr "Art"
+msgstr ""
 
 #: pretix_eventparts/models.py:34
 msgid "Event"
-msgstr "Event"
+msgstr ""
 
 #: pretix_eventparts/signals.py:45 pretix_eventparts/signals.py:117
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:17
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:3
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:5
 msgid "Eventparts"
-msgstr "Eventparts"
+msgstr ""
 
 #: pretix_eventparts/signals.py:134
 msgid ""
 "Eventpart information is switched to public and is shown in the customers "
 "order view."
 msgstr ""
-"Eventpart Information wurde zur Darstellung in der Bestellansicht der Kund:"
-"innen veröffentlicht."
 
 #: pretix_eventparts/signals.py:138
 msgid "Eventpart information is no longer shown in the customers order view."
 msgstr ""
-"Eventpart Information ist nicht länger in der Bestellansicht der Kund:innen "
-"einsehbar."
 
 #: pretix_eventparts/signals.py:147
 msgid "1st Eventpart Type"
-msgstr "1. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:148
 msgid "1st Part Type"
-msgstr "1. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:156
 msgid "1st Eventpart Name"
-msgstr "1. Eventpart Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:157
 msgid "1st Part Name"
-msgstr "1. Eventpart Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:165
 msgid "1st Eventpart Description"
-msgstr "1. Eventpart Beschreibung"
+msgstr ""
 
 #: pretix_eventparts/signals.py:166 pretix_eventparts/signals.py:202
 #: pretix_eventparts/signals.py:238
 msgid "Descriptive Text ..."
-msgstr "Beschreibender Text …"
+msgstr ""
 
 #: pretix_eventparts/signals.py:174
 msgid "1st Eventpart Category"
-msgstr "1. Eventpart Kategorie"
+msgstr ""
 
 #: pretix_eventparts/signals.py:175
 msgid "Category 1"
-msgstr "Kategorie 1"
+msgstr ""
 
 #: pretix_eventparts/signals.py:183
 msgid "2nd Eventpart Type"
-msgstr "2. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:184
 msgid "2nd Part Type"
-msgstr "2. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:192
 msgid "2nd Eventpart Name"
-msgstr "2. Eventpart Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:193
 msgid "2nd Part Name"
-msgstr "2. Eventpart Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:201
 msgid "2nd Eventpart Description"
-msgstr "2. Eventpart Beschreibung"
+msgstr ""
 
 #: pretix_eventparts/signals.py:210
 msgid "2nd Eventpart Category"
-msgstr "2. Eventpart Kategorie"
+msgstr ""
 
 #: pretix_eventparts/signals.py:211
 msgid "Category 2"
-msgstr "Kategorie 2"
+msgstr ""
 
 #: pretix_eventparts/signals.py:219
 msgid "3rd Eventpart Type"
-msgstr "3. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:220
 msgid "3rd Part Type"
-msgstr "3. Eventpart Art"
+msgstr ""
 
 #: pretix_eventparts/signals.py:228
 msgid "3rd Eventpart Name"
-msgstr "3. Eventpart Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:229
 msgid "3rd Part Name"
-msgstr "3. Eventpart  Name"
+msgstr ""
 
 #: pretix_eventparts/signals.py:237
 msgid "3rd Eventpart Description"
-msgstr "3. Eventpart Beschreibung"
+msgstr ""
 
 #: pretix_eventparts/signals.py:246
 msgid "3rd Eventpart Category"
-msgstr "3. Eventpart Kategorie"
+msgstr ""
 
 #: pretix_eventparts/signals.py:247
 msgid "Category 3"
-msgstr "Kategorie 3"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:6
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:8
 msgid "Eventpart"
-msgstr "Eventpart"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:14
 msgid "General Information"
-msgstr "Allgemeine Information"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:31
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assign.html:23
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/settings.html:21
 msgid "Save"
-msgstr "Speichern"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:44
 msgid "Assigned Orders"
-msgstr "Zugewiesene Bestellungen"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:49
 msgid "Copy email adresses"
-msgstr "Email Adressen kopieren"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:61
 msgid "Order code"
-msgstr "Bestellnummer"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:62
 msgid "User"
-msgstr "Nutzer:in"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:63
 msgid "Order date"
-msgstr "Bestelldatum"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:64
 msgid "Positions"
-msgstr "Positionen"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:65
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:78
 msgid "TEST MODE"
-msgstr "TEST MODUS"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:81
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:83
 #, python-format
 msgctxt "followup"
 msgid "TODO %(date)s"
-msgstr "TODO %(date)s"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:105
 msgid "Sum over all pages"
-msgstr "Summe über alle Seiten"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart.html:108
 #, python-format
 msgid "1 order"
 msgid_plural "%(s)s orders"
-msgstr[0] "1 Bestellung"
-msgstr[1] "%(s)s Bestellungen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assign.html:4
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assign.html:6
 msgid "Eventpart assignment"
-msgstr "Eventpart Zuteilung"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assign.html:13
 msgid "General information"
-msgstr "Allgemeine Informationen"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:12
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:12
 msgid "Change Eventpart assignment"
-msgstr "Ändere Eventpart Zuteilung"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:38
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:55
@@ -287,79 +288,71 @@ msgstr "Ändere Eventpart Zuteilung"
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:56
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:73
 msgid "not selected"
-msgstr "nicht ausgewählt"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_delete.html:4
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_delete.html:6
 msgid "Delete Eventpart"
-msgstr "Eventpart löschen"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_delete.html:9
 #, python-format
 msgid ""
 "Are you sure you want to delete the Eventpart <strong>%(name)s</strong>?"
 msgstr ""
-"Bist du dir sicher das du den Eventpart <strong>%(name)s</strong> löschen "
-"möchtest?"
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_delete.html:14
 msgid "Cancel"
-msgstr "Abbruch"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_delete.html:17
 msgid "Delete"
-msgstr "Löschen"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:7
 msgid ""
 "You can use Eventparts to segment a customer journey through your event."
 msgstr ""
-"Mit Eventparts kannst du die unterschiedliche Abschnitte deines Events "
-"deinen Kund:innen zuordnen."
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:14
 msgid "You haven't created any Eventparts yet."
-msgstr "Du hast noch keine Eventparts angelegt."
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:20
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:24
 msgid "Create a new Eventpart"
-msgstr "Neuer Eventpart anlegen."
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventparts.html:57
 msgid "Clone"
-msgstr "Kopieren"
+msgstr ""
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/settings.html:4
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/settings.html:6
 msgid "Eventpart settings"
-msgstr "Eventpart Einstellungen"
+msgstr ""
 
 #: pretix_eventparts/views.py:71
 msgid "The new Eventpart has been created."
-msgstr "Der neue Eventpart wurde angelegt."
+msgstr ""
 
 #: pretix_eventparts/views.py:82 pretix_eventparts/views.py:159
 #: pretix_eventparts/views.py:230
 msgid "We could not save your changes. See below for details."
 msgstr ""
-"Deine Änderungen konnten nicht gespeichert werden. Details weiter unten."
 
 #: pretix_eventparts/views.py:98
 msgid "The requested product category does not exist."
-msgstr "Die ausgewählte Produkt Kategorie existiert nicht."
+msgstr ""
 
 #: pretix_eventparts/views.py:109
 msgid "The selected eventpart has been deleted."
-msgstr "Der ausgewählte Eventpart wurde gelöscht."
+msgstr ""
 
 #: pretix_eventparts/views.py:135
 msgid "The requested eventpart does not exist."
-msgstr "Der ausgewählte Eventpart existiert nicht."
+msgstr ""
 
 #: pretix_eventparts/views.py:139
 msgid "Your changes have been saved."
-msgstr "Deine Änderungen wurden gespeichert"
-
-#~ msgid "Eventparts settings"
-#~ msgstr "Eventpart Einstellungen"
+msgstr ""

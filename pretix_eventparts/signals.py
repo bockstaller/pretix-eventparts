@@ -58,7 +58,7 @@ def navbar_entry(request, **kwargs):
 
 
 @receiver(signals.order_info, dispatch_uid="pretix_eventparts")
-def order_eventstep_selection(sender, order, request, **kwargs):
+def order_eventpart_selection(sender, order, request, **kwargs):
     ep = order.eventpart_set.all()
 
     eventparts = {
@@ -74,7 +74,7 @@ def order_eventstep_selection(sender, order, request, **kwargs):
 
 
 @receiver(order_info, dispatch_uid="pretix_eventparts")
-def order_eventstep_selection_public(sender, order, request, **kwargs):
+def order_eventpart_selection_public(sender, order, request, **kwargs):
     if request.event.settings.eventparts__public is False:
         return None
 
@@ -131,11 +131,11 @@ def nav_event_settings(sender, request, **kwargs):
 def logentry_display_f(logentry, **kwargs):
     if logentry.action_type == "pretix_eventparts.public":
         return _(
-            "Eventstep information is switched to public and is shown in the customers order view."
+            "Eventpart information is switched to public and is shown in the customers order view."
         )
     if logentry.action_type == "pretix_eventparts.not_public":
         return _(
-            "Eventstep information is no longer shown in the customers order view."
+            "Eventpart information is no longer shown in the customers order view."
         )
     return None
 
@@ -143,26 +143,26 @@ def logentry_display_f(logentry, **kwargs):
 @receiver(layout_text_variables, dispatch_uid="pretix_eventparts")
 def ticket_text_variables(**kwargs):
     return {
-        "pretix_eventsteps_start_type": {
-            "label": _("1st Eventstep Type"),
-            "editor_sample": _("1st Step Type"),
+        "pretix_eventparts_start_type": {
+            "label": _("1st Eventpart Type"),
+            "editor_sample": _("1st Part Type"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.START
             )
             .first()
             .type_name,
         },
-        "pretix_eventsteps_start_name": {
-            "label": _("1st Eventstep Name"),
-            "editor_sample": _("1st Step Name"),
+        "pretix_eventparts_start_name": {
+            "label": _("1st Eventpart Name"),
+            "editor_sample": _("1st Part Name"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.START
             )
             .first()
             .name,
         },
-        "pretix_eventsteps_start_description": {
-            "label": _("1st Eventstep Description"),
+        "pretix_eventparts_start_description": {
+            "label": _("1st Eventpart Description"),
             "editor_sample": _("Descriptive Text ..."),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.START
@@ -170,8 +170,8 @@ def ticket_text_variables(**kwargs):
             .first()
             .description,
         },
-        "pretix_eventsteps_start_category": {
-            "label": _("1st Eventstep Category"),
+        "pretix_eventparts_start_category": {
+            "label": _("1st Eventpart Category"),
             "editor_sample": _("Category 1"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.START
@@ -179,26 +179,26 @@ def ticket_text_variables(**kwargs):
             .first()
             .category,
         },
-        "pretix_eventsteps_middle_type": {
-            "label": _("2nd Eventstep Type"),
-            "editor_sample": _("2nd Step Type"),
+        "pretix_eventparts_middle_type": {
+            "label": _("2nd Eventpart Type"),
+            "editor_sample": _("2nd Part Type"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.MIDDLE
             )
             .first()
             .type_name,
         },
-        "pretix_eventsteps_middle_name": {
-            "label": _("2nd Eventstep Name"),
-            "editor_sample": _("2nd Step Name"),
+        "pretix_eventparts_middle_name": {
+            "label": _("2nd Eventpart Name"),
+            "editor_sample": _("2nd Part Name"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.MIDDLE
             )
             .first()
             .name,
         },
-        "pretix_eventsteps_middle_description": {
-            "label": _("2nd Eventstep Description"),
+        "pretix_eventparts_middle_description": {
+            "label": _("2nd Eventpart Description"),
             "editor_sample": _("Descriptive Text ..."),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.MIDDLE
@@ -206,8 +206,8 @@ def ticket_text_variables(**kwargs):
             .first()
             .description,
         },
-        "pretix_eventsteps_middle_category": {
-            "label": _("2nd Eventstep Category"),
+        "pretix_eventparts_middle_category": {
+            "label": _("2nd Eventpart Category"),
             "editor_sample": _("Category 2"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.MIDDLE
@@ -215,26 +215,26 @@ def ticket_text_variables(**kwargs):
             .first()
             .category,
         },
-        "pretix_eventsteps_end_type": {
-            "label": _("3rd Eventstep Type"),
-            "editor_sample": _("3rd Step Type"),
+        "pretix_eventparts_end_type": {
+            "label": _("3rd Eventpart Type"),
+            "editor_sample": _("3rd Part Type"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.END
             )
             .first()
             .type_name,
         },
-        "pretix_eventsteps_end_name": {
-            "label": _("3rd Eventstep Name"),
-            "editor_sample": _("3rd Step Name"),
+        "pretix_eventparts_end_name": {
+            "label": _("3rd Eventpart Name"),
+            "editor_sample": _("3rd Part Name"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.END
             )
             .first()
             .name,
         },
-        "pretix_eventsteps_end_description": {
-            "label": _("3rd Eventstep Description"),
+        "pretix_eventparts_end_description": {
+            "label": _("3rd Eventpart Description"),
             "editor_sample": _("Descriptive Text ..."),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.END
@@ -242,8 +242,8 @@ def ticket_text_variables(**kwargs):
             .first()
             .description,
         },
-        "pretix_eventsteps_end_category": {
-            "label": _("3rd Eventstep Category"),
+        "pretix_eventparts_end_category": {
+            "label": _("3rd Eventpart Category"),
             "editor_sample": _("Category 3"),
             "evaluate": lambda orderposition, order, event: order.eventpart_set.filter(
                 type=EventPart.EventPartTypes.END
