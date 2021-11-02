@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pretix_eventparts', '0004_auto_20211028_2252'),
+        ("pretix_eventparts", "0004_auto_20211028_2252"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='eventpart',
-            name='capacity',
+            model_name="eventpart",
+            name="capacity",
             field=models.IntegerField(default=0),
         ),
     ]

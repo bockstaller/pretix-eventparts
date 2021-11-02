@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pretix_eventparts', '0007_alter_eventpart_category'),
+        ("pretix_eventparts", "0007_alter_eventpart_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='eventpart',
-            name='type',
-            field=models.CharField(default='start', max_length=6),
+            model_name="eventpart",
+            name="type",
+            field=models.CharField(default="start", max_length=6),
         ),
     ]

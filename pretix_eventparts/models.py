@@ -1,16 +1,9 @@
 from django.db import models
 from django.db.models.fields import CharField
+from django.utils.translation import gettext_lazy as _
+from i18nfield.fields import I18nCharField
+from pretix.base.models import Event, Order
 from pretix.base.models.base import LoggedModel
-from pretix.base.models import Order, Event
-from pretix.base.validators import EventSlugBanlistValidator
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-    RegexValidator,
-)
-from django.utils.translation import gettext, gettext_lazy as _
-from i18nfield.fields import I18nCharField, I18nTextField
-from enum import Enum, unique
 
 
 class EventPart(LoggedModel):

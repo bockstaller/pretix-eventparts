@@ -1,12 +1,11 @@
 from django.conf.urls import url
 
-
 from pretix_eventparts.views import (
-    EventPartList,
+    EventPartAssign,
     EventPartCreate,
     EventPartDelete,
+    EventPartList,
     EventPartUpdate,
-    EventPartAssign,
     SettingsView,
 )
 

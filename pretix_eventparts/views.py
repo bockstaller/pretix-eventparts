@@ -1,40 +1,31 @@
-from pretix.control.permissions import EventPermissionRequiredMixin
-from pretix_eventparts.forms import EventpartSettingsForm
-from pretix.control.views import PaginationMixin
-from django.views.generic import (
-    DetailView,
-    FormView,
-    ListView,
-    TemplateView,
-    View,
-)
 from django.contrib import messages
 from django.db import transaction
-from django.urls import reverse, resolve
-from pretix_eventparts.models import EventPart
-from pretix.base.models import Order
+from django.http import (
+    Http404,
+    HttpResponseRedirect,
+)
+from django.urls import resolve, reverse
+from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import FormView, ListView
+from django.views.generic.edit import DeleteView
+from pretix.base.models import Event, Order
+from pretix.control.permissions import EventPermissionRequiredMixin
 from pretix.control.views import (
-    ChartContainingView,
     CreateView,
     PaginationMixin,
     UpdateView,
 )
-from django.http import (
-    Http404,
-    HttpResponse,
-    HttpResponseBadRequest,
-    HttpResponseRedirect,
-)
-from django.utils.translation import gettext, gettext_lazy as _
-from pretix.helpers.models import modelcopy
-from django.utils.functional import cached_property
-from pretix_eventparts.forms import EventPartForm, AssignEventPartForm
-from pretix_eventparts.models import EventPart
-from django.views.generic.edit import DeleteView
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
-from pretix.base.models import Event
+from pretix.helpers.models import modelcopy
 from pretix.presale.style import regenerate_css
-from pretix.base.models import LogEntry
+
+from pretix_eventparts.forms import (
+    AssignEventPartForm,
+    EventPartForm,
+    EventpartSettingsForm,
+)
+from pretix_eventparts.models import EventPart
 
 
 class EventPartCreate(EventPermissionRequiredMixin, CreateView):
@@ -109,9 +100,7 @@ class EventPartDelete(EventPermissionRequiredMixin, DeleteView):
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        for order in self.object.orders.all():
-            raise (NotImplemented("Remove eventpart from orders"))
-            order.save()
+
         success_url = self.get_success_url()
         self.object.log_action(
             "pretix_eventparts.eventpart.deleted", user=self.request.user
@@ -253,7 +242,7 @@ class SettingsView(EventSettingsViewMixin, EventSettingsFormView):
         form = self.get_form()
         if form.is_valid():
 
-            if form.cleaned_data["eventparts__public"] == True:
+            if form.cleaned_data["eventparts__public"] is True:
                 regenerate_css.apply_async(args=(self.request.event.pk,))
                 self.request.event.log_action(
                     "pretix_eventparts.public", user=self.request.user

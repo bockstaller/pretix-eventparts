@@ -1,21 +1,24 @@
 # Register your receivers here
 
-from django.urls import reverse, resolve
-from django.dispatch.dispatcher import receiver
-from pretix.base.models.event import Event
-from pretix.control import signals
-from django.utils.translation import gettext, gettext_lazy as _
-from pretix_eventparts.forms import AssignEventPartForm
-from django.shortcuts import render
-from pretix_eventparts.models import EventPart
-from django.template.loader import render_to_string
-from pretix.presale.signals import order_info
-from pretix.presale.signals import html_footer, sass_postamble, sass_preamble
 from django.contrib.staticfiles import finders
-from django.utils import translation
-from pretix.base.settings import settings_hierarkey
+from django.dispatch.dispatcher import receiver
+
+from django.template.loader import render_to_string
+from django.urls import resolve, reverse
+
+from django.utils.translation import gettext_lazy as _
 from i18nfield.forms import LazyI18nString
+
+from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import layout_text_variables, logentry_display
+from pretix.control import signals
+from pretix.presale.signals import (
+    order_info,
+    sass_postamble,
+)
+
+
+from pretix_eventparts.models import EventPart
 
 settings_hierarkey.add_default(
     key="eventparts__public_name", default_type=LazyI18nString, value=None
@@ -72,7 +75,7 @@ def order_eventstep_selection(sender, order, request, **kwargs):
 
 @receiver(order_info, dispatch_uid="pretix_eventparts")
 def order_eventstep_selection_public(sender, order, request, **kwargs):
-    if request.event.settings.eventparts__public == False:
+    if request.event.settings.eventparts__public is False:
         return None
 
     ep = order.eventpart_set.all()

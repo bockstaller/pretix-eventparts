@@ -1,9 +1,9 @@
-from pretix_eventparts.models import EventPart
-from pretix.base.forms import I18nFormSet, I18nModelForm
 from django import forms
-from i18nfield.forms import I18nTextarea, I18nTextInput, I18nFormField, LazyI18nString
-from pretix.base.forms import SettingsForm
 from django.utils.translation import gettext_lazy as _
+from i18nfield.forms import I18nFormField, I18nTextarea, I18nTextInput, LazyI18nString
+from pretix.base.forms import I18nModelForm, SettingsForm
+
+from pretix_eventparts.models import EventPart
 
 
 class EventPartForm(I18nModelForm):
