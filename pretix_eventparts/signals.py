@@ -21,19 +21,19 @@ from pretix.presale.signals import (
 from pretix_eventparts.models import EventPart
 
 settings_hierarkey.add_default(
-    key="eventparts__public_name", default_type=LazyI18nString, value=None
+    key="eventparts__public_name", default_type=LazyI18nString, value="Eventpart"
 )
 settings_hierarkey.add_default(
     key="eventparts__public_description", default_type=LazyI18nString, value=None
 )
 settings_hierarkey.add_default(
-    key="eventparts__public_start_name", default_type=LazyI18nString, value=None
+    key="eventparts__public_start_name", default_type=LazyI18nString, value="Start"
 )
 settings_hierarkey.add_default(
-    key="eventparts__public_middle_name", default_type=LazyI18nString, value=None
+    key="eventparts__public_middle_name", default_type=LazyI18nString, value="Middle"
 )
 settings_hierarkey.add_default(
-    key="eventparts__public_end_name", default_type=LazyI18nString, value=None
+    key="eventparts__public_end_name", default_type=LazyI18nString, value="End"
 )
 
 
