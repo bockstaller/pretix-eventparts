@@ -40,30 +40,30 @@ class EventpartSettingsForm(SettingsForm):
         initial=False,
     )
     eventparts__public_name = I18nFormField(
-        label=_("Customer facing name of the eventparts section."),
+        label=_("Customer facing name of the eventparts section"),
         required=True,
         widget=I18nTextInput,
         initial=LazyI18nString({"en": "Eventparts"}),
     )
     eventparts__public_description = I18nFormField(
-        label=_("Customer facing description of the eventparts."),
+        label=_("Customer facing description of the eventparts"),
         required=False,
         widget=I18nTextarea,
     )
     eventparts__public_start_name = I18nFormField(
-        label=_("Name of the first eventpart."),
+        label=_("Name of the first eventpart"),
         required=True,
         initial=LazyI18nString({"en": "Start"}),
         widget=I18nTextInput,
     )
     eventparts__public_middle_name = I18nFormField(
-        label=_("Name of the second eventpart."),
+        label=_("Name of the second eventpart"),
         required=True,
         initial=LazyI18nString({"en": "Middle"}),
         widget=I18nTextInput,
     )
     eventparts__public_end_name = I18nFormField(
-        label=_("Name of the third eventpart."),
+        label=_("Name of the third eventpart"),
         required=True,
         initial=LazyI18nString({"en": "End"}),
         widget=I18nTextInput,

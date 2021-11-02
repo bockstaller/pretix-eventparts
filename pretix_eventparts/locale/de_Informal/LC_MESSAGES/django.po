@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-03 00:13+0100\n"
+"POT-Creation-Date: 2021-11-03 00:22+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lukas Bockstaller\n"
 "Language-Team: \n"
@@ -26,24 +26,24 @@ msgid "Show Eventparts in customers order view"
 msgstr "Veröffentliche Eventparts in der Bestellansicht der Kund:innen"
 
 #: pretix_eventparts/forms.py:43
-msgid "Customer facing name of the eventparts section."
-msgstr "Öffentlicher Name des Eventparts."
+msgid "Customer facing name of the eventparts section"
+msgstr "Öffentlicher Name des Eventparts"
 
 #: pretix_eventparts/forms.py:49
-msgid "Customer facing description of the eventparts."
-msgstr "Öffentliche Beschreibung des Eventparts."
+msgid "Customer facing description of the eventparts"
+msgstr "Öffentliche Beschreibung des Eventparts"
 
 #: pretix_eventparts/forms.py:54
-msgid "Name of the first eventpart."
-msgstr "Name des ersten Eventpart."
+msgid "Name of the first eventpart"
+msgstr "Name des ersten Eventpart"
 
 #: pretix_eventparts/forms.py:60
-msgid "Name of the second eventpart."
-msgstr "Name des zweiten Eventpart."
+msgid "Name of the second eventpart"
+msgstr "Name des zweiten Eventpart"
 
 #: pretix_eventparts/forms.py:66
-msgid "Name of the third eventpart."
-msgstr "Name des dritten Eventpart."
+msgid "Name of the third eventpart"
+msgstr "Name des dritten Eventpart"
 
 #: pretix_eventparts/models.py:17
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:28

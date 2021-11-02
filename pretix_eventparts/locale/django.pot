@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-03 00:13+0100\n"
+"POT-Creation-Date: 2021-11-03 00:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,23 +31,23 @@ msgid "Show Eventparts in customers order view"
 msgstr ""
 
 #: pretix_eventparts/forms.py:43
-msgid "Customer facing name of the eventparts section."
+msgid "Customer facing name of the eventparts section"
 msgstr ""
 
 #: pretix_eventparts/forms.py:49
-msgid "Customer facing description of the eventparts."
+msgid "Customer facing description of the eventparts"
 msgstr ""
 
 #: pretix_eventparts/forms.py:54
-msgid "Name of the first eventpart."
+msgid "Name of the first eventpart"
 msgstr ""
 
 #: pretix_eventparts/forms.py:60
-msgid "Name of the second eventpart."
+msgid "Name of the second eventpart"
 msgstr ""
 
 #: pretix_eventparts/forms.py:66
-msgid "Name of the third eventpart."
+msgid "Name of the third eventpart"
 msgstr ""
 
 #: pretix_eventparts/models.py:17
