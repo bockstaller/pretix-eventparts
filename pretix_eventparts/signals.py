@@ -69,7 +69,12 @@ def order_eventpart_selection(sender, order, request, **kwargs):
 
     return render_to_string(
         "pretix_eventparts/eventparts/eventpart_assignments.html",
-        {"order": order, "eventparts": eventparts, "request": request},
+        {
+            "order": order,
+            "eventparts": eventparts,
+            "request": request,
+            "settings": request.event.settings,
+        },
     )
 
 

@@ -14,14 +14,14 @@
             {% endif %}
         </div>
         <h3 class="panel-title">
-            {% trans "Eventparts" %}
+            {{settings.eventparts__public_name}}
         </h3>
     </div>
     <div class="panel-body">
         <h3 class="panel-title"> </h3>
         <div class="row-fluid product-row eventpart-row" >
             <div class="col-md-9 col-xs-6">
-                <h4>Start</h4>
+                <h4>{{settings.eventparts__public_start_name}}</h4>
                 {% with e=eventparts.start %}
                     {% if e %}
                     <dl>
@@ -38,7 +38,7 @@
                         <em>{% trans "not selected" %}</em>
                     {% endif %}
                 {% endwith %} 
-                <h4>Middle</h4>
+                <h4>{{settings.eventparts__public_middle_name}}</h4>
                 {% with e=eventparts.middle %}
                     {% if e %}
                     <dl>
@@ -55,7 +55,7 @@
                         <em>{% trans "not selected" %}</em>
                     {% endif %}
                 {% endwith %} 
-                <h4>End</h4>
+                <h4>{{settings.eventparts__public_end_name}}</h4>
                 {% with e=eventparts.end %}
                     {% if e %}
                     <dl>

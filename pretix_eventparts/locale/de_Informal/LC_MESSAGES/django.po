@@ -278,7 +278,7 @@ msgstr "Allgemeine Informationen"
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:12
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments_public.html:12
 msgid "Change Eventpart assignment"
-msgstr "Ändere Eventpart Zuteilung"
+msgstr "Ändere Eventpart-Zuteilung"
 
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:38
 #: pretix_eventparts/templates/pretix_eventparts/eventparts/eventpart_assignments.html:55
