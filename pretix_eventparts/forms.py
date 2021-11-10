@@ -4,6 +4,8 @@ from i18nfield.forms import I18nFormField, I18nTextarea, I18nTextInput, LazyI18n
 from pretix.base.forms import I18nModelForm, SettingsForm
 
 from pretix_eventparts.models import EventPart
+from django_scopes.forms import SafeModelChoiceField
+from django_scopes import scope
 
 
 class EventPartForm(I18nModelForm):
@@ -19,18 +21,29 @@ class EventPartForm(I18nModelForm):
 
 
 class AssignEventPartForm(forms.Form):
-    eventpart_start = forms.ModelChoiceField(
-        queryset=EventPart.objects.filter(type=EventPart.EventPartTypes.START).all(),
-        required=False,
-    )
-    eventpart_middle = forms.ModelChoiceField(
-        queryset=EventPart.objects.filter(type=EventPart.EventPartTypes.MIDDLE).all(),
-        required=False,
-    )
-    eventpart_end = forms.ModelChoiceField(
-        queryset=EventPart.objects.filter(type=EventPart.EventPartTypes.END).all(),
-        required=False,
-    )
+    class Meta:
+        field_classes = {
+            "eventpart_start": SafeModelChoiceField,
+            "eventpart_middle": SafeModelChoiceField,
+            "eventpart_end": SafeModelChoiceField,
+        }
+
+    def __init__(self, event, **kwargs):
+        super().__init__(**kwargs)
+        with scope(event=event):
+            self.fields["eventpart_start"].queryset = EventPart.objects.filter(
+                type=EventPart.EventPartTypes.START
+            ).all()
+            self.fields["eventpart_middle"].queryset = EventPart.objects.filter(
+                type=EventPart.EventPartTypes.MIDDLE
+            ).all()
+            self.fields["eventpart_end"].queryset = EventPart.objects.filter(
+                type=EventPart.EventPartTypes.END
+            ).all()
+
+    eventpart_start = forms.ModelChoiceField(required=False, queryset=None)
+    eventpart_middle = forms.ModelChoiceField(required=False, queryset=None)
+    eventpart_end = forms.ModelChoiceField(required=False, queryset=None)
 
 
 class EventpartSettingsForm(SettingsForm):

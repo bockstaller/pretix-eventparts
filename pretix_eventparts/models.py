@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from i18nfield.fields import I18nCharField
 from pretix.base.models import Event, Order
 from pretix.base.models.base import LoggedModel
+from django_scopes import ScopedManager
 
 
 class EventPart(LoggedModel):
@@ -15,7 +16,6 @@ class EventPart(LoggedModel):
     name = CharField(
         max_length=200,
         verbose_name=_("Name"),
-        unique=True,
     )
     description = I18nCharField(
         max_length=None, verbose_name=_("Description"), default=""
@@ -37,6 +37,8 @@ class EventPart(LoggedModel):
     )
 
     orders = models.ManyToManyField(Order)
+
+    objects = ScopedManager(event="event")
 
     @property
     def type_name(self):

@@ -16,7 +16,7 @@ from pretix.presale.signals import (
     order_info,
     sass_postamble,
 )
-
+from django_scopes import scope
 
 from pretix_eventparts.models import EventPart
 
@@ -59,13 +59,13 @@ def navbar_entry(request, **kwargs):
 
 @receiver(signals.order_info, dispatch_uid="pretix_eventparts")
 def order_eventpart_selection(sender, order, request, **kwargs):
-    ep = order.eventpart_set.all()
-
-    eventparts = {
-        "start": ep.filter(type=EventPart.EventPartTypes.START).first(),
-        "middle": ep.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
-        "end": ep.filter(type=EventPart.EventPartTypes.END).first(),
-    }
+    with scope(event=order.event):
+        ep = order.eventpart_set.all()
+        eventparts = {
+            "start": ep.filter(type=EventPart.EventPartTypes.START).first(),
+            "middle": ep.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
+            "end": ep.filter(type=EventPart.EventPartTypes.END).first(),
+        }
 
     return render_to_string(
         "pretix_eventparts/eventparts/eventpart_assignments.html",
@@ -83,13 +83,13 @@ def order_eventpart_selection_public(sender, order, request, **kwargs):
     if request.event.settings.eventparts__public is False:
         return None
 
-    ep = order.eventpart_set.all()
-
-    eventparts = {
-        "start": ep.filter(type=EventPart.EventPartTypes.START).first(),
-        "middle": ep.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
-        "end": ep.filter(type=EventPart.EventPartTypes.END).first(),
-    }
+    with scope(event=order.event):
+        ep = order.eventpart_set.all()
+        eventparts = {
+            "start": ep.filter(type=EventPart.EventPartTypes.START).first(),
+            "middle": ep.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
+            "end": ep.filter(type=EventPart.EventPartTypes.END).first(),
+        }
 
     return render_to_string(
         "pretix_eventparts/eventparts/eventpart_assignments_public.html",

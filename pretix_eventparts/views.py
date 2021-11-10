@@ -26,6 +26,7 @@ from pretix_eventparts.forms import (
     EventpartSettingsForm,
 )
 from pretix_eventparts.models import EventPart
+from django_scopes import scope
 
 
 class EventPartCreate(EventPermissionRequiredMixin, CreateView):
@@ -92,22 +93,24 @@ class EventPartDelete(EventPermissionRequiredMixin, DeleteView):
     context_object_name = "eventpart"
 
     def get_object(self, queryset=None) -> EventPart:
-        try:
-            return self.request.event.eventparts.get(id=self.kwargs["eventpart"])
-        except EventPart.DoesNotExist:
-            raise Http404(_("The requested product category does not exist."))
+        with scope(event=self.request.event):
+            try:
+                return self.request.event.eventparts.get(id=self.kwargs["eventpart"])
+            except EventPart.DoesNotExist:
+                raise Http404(_("The requested product category does not exist."))
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        with scope(event=self.request.event):
+            self.object = self.get_object()
 
-        success_url = self.get_success_url()
-        self.object.log_action(
-            "pretix_eventparts.eventpart.deleted", user=self.request.user
-        )
-        self.object.delete()
-        messages.success(request, _("The selected eventpart has been deleted."))
-        return HttpResponseRedirect(success_url)
+            success_url = self.get_success_url()
+            self.object.log_action(
+                "pretix_eventparts.eventpart.deleted", user=self.request.user
+            )
+            self.object.delete()
+            messages.success(request, _("The selected eventpart has been deleted."))
+            return HttpResponseRedirect(success_url)
 
     def get_success_url(self) -> str:
         return reverse(
@@ -127,23 +130,25 @@ class EventPartUpdate(EventPermissionRequiredMixin, UpdateView):
     context_object_name = "eventpart"
 
     def get_object(self, queryset=None) -> EventPart:
-        url = resolve(self.request.path_info)
-        try:
-            x = self.request.event.eventparts.get(id=url.kwargs["eventpart"])
-            return x
-        except EventPart.DoesNotExist:
-            raise Http404(_("The requested eventpart does not exist."))
+        with scope(event=self.request.event):
+            url = resolve(self.request.path_info)
+            try:
+                x = self.request.event.eventparts.get(id=url.kwargs["eventpart"])
+                return x
+            except EventPart.DoesNotExist:
+                raise Http404(_("The requested eventpart does not exist."))
 
     @transaction.atomic
     def form_valid(self, form):
-        messages.success(self.request, _("Your changes have been saved."))
-        if form.has_changed():
-            self.object.log_action(
-                "pretix_eventparts.eventpart.changed",
-                user=self.request.user,
-                data={k: form.cleaned_data.get(k) for k in form.changed_data},
-            )
-        return super().form_valid(form)
+        with scope(event=self.request.event):
+            messages.success(self.request, _("Your changes have been saved."))
+            if form.has_changed():
+                self.object.log_action(
+                    "pretix_eventparts.eventpart.changed",
+                    user=self.request.user,
+                    data={k: form.cleaned_data.get(k) for k in form.changed_data},
+                )
+            return super().form_valid(form)
 
     def get_success_url(self) -> str:
         return reverse(
@@ -168,16 +173,18 @@ class EventPartList(EventPermissionRequiredMixin, PaginationMixin, ListView):
     permission = "can_view_orders"
 
     def get_queryset(self):
-        qs = EventPart.objects.filter(event=self.request.event)
+        with scope(event=self.request.event):
+            qs = EventPart.objects.filter(event=self.request.event)
 
-        return qs
+            return qs
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx["start"] = self.request.event.settings.eventparts__public_start_name
-        ctx["middle"] = self.request.event.settings.eventparts__public_middle_name
-        ctx["end"] = self.request.event.settings.eventparts__public_end_name
-        return ctx
+        with scope(event=self.request.event):
+            ctx = super().get_context_data(**kwargs)
+            ctx["start"] = self.request.event.settings.eventparts__public_start_name
+            ctx["middle"] = self.request.event.settings.eventparts__public_middle_name
+            ctx["end"] = self.request.event.settings.eventparts__public_end_name
+            return ctx
 
 
 class EventPartAssign(EventPermissionRequiredMixin, FormView):
@@ -185,51 +192,61 @@ class EventPartAssign(EventPermissionRequiredMixin, FormView):
     template_name = "pretix_eventparts/eventparts/eventpart_assign.html"
     permission = "can_change_items"
 
-    def get_initial(self):
-        url = resolve(self.request.path_info)
-        order = Order.objects.filter(code=url.kwargs["code"]).get()
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["event"] = self.request.event
+        return kwargs
 
-        initial = {
-            "eventpart_start": order.eventpart_set.filter(
-                type=EventPart.EventPartTypes.START
-            ).first(),
-            "eventpart_middle": order.eventpart_set.filter(
-                type=EventPart.EventPartTypes.MIDDLE
-            ).first(),
-            "eventpart_end": order.eventpart_set.filter(
-                type=EventPart.EventPartTypes.END
-            ).first(),
-        }
-        return initial
+    def get_initial(self):
+        with scope(event=self.request.event):
+            url = resolve(self.request.path_info)
+            order = Order.objects.filter(code=url.kwargs["code"]).get()
+
+            initial = {
+                "eventpart_start": order.eventpart_set.filter(
+                    type=EventPart.EventPartTypes.START
+                ).first(),
+                "eventpart_middle": order.eventpart_set.filter(
+                    type=EventPart.EventPartTypes.MIDDLE
+                ).first(),
+                "eventpart_end": order.eventpart_set.filter(
+                    type=EventPart.EventPartTypes.END
+                ).first(),
+            }
+            return initial
 
     @transaction.atomic
     def form_valid(self, form):
-        url = resolve(self.request.path_info)
-        order = Order.objects.get(code=url.kwargs["code"])
-        order.eventpart_set.clear()
-        order.eventpart_set.add(
-            form.cleaned_data["eventpart_start"],
-            form.cleaned_data["eventpart_middle"],
-            form.cleaned_data["eventpart_end"],
-        )
-        return super().form_valid(form)
+        with scope(event=self.request.event):
+            url = resolve(self.request.path_info)
+            order = Order.objects.get(code=url.kwargs["code"])
+            order.eventpart_set.clear()
+            order.eventpart_set.add(
+                form.cleaned_data["eventpart_start"],
+                form.cleaned_data["eventpart_middle"],
+                form.cleaned_data["eventpart_end"],
+            )
+            return super().form_valid(form)
 
     def get_success_url(self) -> str:
-        url = resolve(self.request.path_info)
-        return reverse(
-            "control:event.order",
-            kwargs={
-                "organizer": self.request.event.organizer.slug,
-                "event": self.request.event.slug,
-                "code": url.kwargs["code"],
-            },
-        )
+        with scope(event=self.request.event):
+            url = resolve(self.request.path_info)
+            return reverse(
+                "control:event.order",
+                kwargs={
+                    "organizer": self.request.event.organizer.slug,
+                    "event": self.request.event.slug,
+                    "code": url.kwargs["code"],
+                },
+            )
 
     def form_invalid(self, form):
-        messages.error(
-            self.request, _("We could not save your changes. See below for details.")
-        )
-        return super().form_invalid(form)
+        with scope(event=self.request.event):
+            messages.error(
+                self.request,
+                _("We could not save your changes. See below for details."),
+            )
+            return super().form_invalid(form)
 
 
 class SettingsView(EventSettingsViewMixin, EventSettingsFormView):
