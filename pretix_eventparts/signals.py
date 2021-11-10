@@ -2,21 +2,15 @@
 
 from django.contrib.staticfiles import finders
 from django.dispatch.dispatcher import receiver
-
 from django.template.loader import render_to_string
 from django.urls import resolve, reverse
-
 from django.utils.translation import gettext_lazy as _
+from django_scopes import scope
 from i18nfield.forms import LazyI18nString
-
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import layout_text_variables, logentry_display
 from pretix.control import signals
-from pretix.presale.signals import (
-    order_info,
-    sass_postamble,
-)
-from django_scopes import scope
+from pretix.presale.signals import order_info, sass_postamble
 
 from pretix_eventparts.models import EventPart
 

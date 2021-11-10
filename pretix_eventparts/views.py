@@ -1,21 +1,15 @@
 from django.contrib import messages
 from django.db import transaction
-from django.http import (
-    Http404,
-    HttpResponseRedirect,
-)
+from django.http import Http404, HttpResponseRedirect
 from django.urls import resolve, reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, ListView
 from django.views.generic.edit import DeleteView
+from django_scopes import scope
 from pretix.base.models import Event, Order
 from pretix.control.permissions import EventPermissionRequiredMixin
-from pretix.control.views import (
-    CreateView,
-    PaginationMixin,
-    UpdateView,
-)
+from pretix.control.views import CreateView, PaginationMixin, UpdateView
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
 from pretix.helpers.models import modelcopy
 from pretix.presale.style import regenerate_css
@@ -26,7 +20,6 @@ from pretix_eventparts.forms import (
     EventpartSettingsForm,
 )
 from pretix_eventparts.models import EventPart
-from django_scopes import scope
 
 
 class EventPartCreate(EventPermissionRequiredMixin, CreateView):

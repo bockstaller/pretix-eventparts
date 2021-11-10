@@ -1,11 +1,11 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django_scopes import scope
+from django_scopes.forms import SafeModelChoiceField
 from i18nfield.forms import I18nFormField, I18nTextarea, I18nTextInput, LazyI18nString
 from pretix.base.forms import I18nModelForm, SettingsForm
 
 from pretix_eventparts.models import EventPart
-from django_scopes.forms import SafeModelChoiceField
-from django_scopes import scope
 
 
 class EventPartForm(I18nModelForm):

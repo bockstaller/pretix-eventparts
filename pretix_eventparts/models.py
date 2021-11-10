@@ -1,10 +1,10 @@
 from django.db import models
 from django.db.models.fields import CharField
 from django.utils.translation import gettext_lazy as _
+from django_scopes import ScopedManager
 from i18nfield.fields import I18nCharField
 from pretix.base.models import Event, Order
 from pretix.base.models.base import LoggedModel
-from django_scopes import ScopedManager
 
 
 class EventPart(LoggedModel):
