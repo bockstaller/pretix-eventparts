@@ -1,9 +1,14 @@
 pretix eventparts
 ==========================
 
-This is a plugin for `pretix`_. 
-
-Short description
+This plugin allows you to assign participants to different parts/stages of your event and communicate this to them.
+Especially for events following the Roverway or rover**voco** structure, where you have one or more kickoffs to start with,
+a middlepart where small groups of participants have their individual experiences/workshops/projects and a common closing camp.
+You can:
+- create eventparts and assign them the start, middle and end position, tag them, add descriptions and a capacity
+- assign orders to these eventparts from the order view
+- see all assigned orders from the eventparts view
+- publish the assigned eventparts and their descriptions to the customers order info page and include the information on their ticket
 
 Development setup
 -----------------
