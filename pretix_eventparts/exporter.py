@@ -17,7 +17,7 @@ class ProjectLists(ListExporter):
     verbose_name = "roverVOCO Projektlisten"
 
     def get_filename(self):
-        return "{}_post".format(self.event.slug)
+        return "{}_projectlist".format(self.event.slug)
 
     @property
     def additional_form_fields(self) -> dict:

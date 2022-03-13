@@ -19,13 +19,13 @@ from pretix.base.email import (
     SimpleFunctionalMailTextPlaceholder,
     register_mail_placeholders,
 )
+from pretix_eventparts.exporter import ProjectLists
 from pretix_eventparts.models import EventPart
 from django.core.exceptions import ObjectDoesNotExist
 
 
-@receiver(register_data_exporters, dispatch_uid="voco_postexporter")
+@receiver(register_data_exporters, dispatch_uid="voco-projectlists")
 def register_post_exporter(sender, **kwargs):
-    from .exporter import ProjectLists
 
     return ProjectLists
 
