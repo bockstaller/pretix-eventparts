@@ -3,9 +3,13 @@ from django.db.models.fields import CharField
 from django.utils.translation import gettext_lazy as _
 
 from i18nfield.fields import I18nCharField
+import logging
+
 
 from pretix.base.models import Event, Order, OrderPosition, Question
 from pretix.base.models.base import LoggedModel
+
+logger = logging.getLogger(__name__)
 
 
 class EventPart(LoggedModel):
@@ -42,6 +46,7 @@ class EventPart(LoggedModel):
     # objects = ScopedManager(event="event")
 
     def get_contact_info(self):
+
         phone = []
         names = []
         emails = []
@@ -59,25 +64,30 @@ class EventPart(LoggedModel):
                 leader.answ.get(mobil_id, ""),
             )
 
-        mobil_id = (
-            Question.objects.filter(event=self.event).get(identifier="CQEBCKRP").id
-        )
+        try:
+            mobil_id = (
+                Question.objects.filter(event=self.event).get(identifier="CQEBCKRP").id
+            )
 
-        o: Order
-        for o in self.orders.all():
-            name, email, phone_no = contact(o)
-            names.append(name)
-            emails.append(email)
-            phone.append(phone_no)
+            o: Order
+            for o in self.orders.all():
+                name, email, phone_no = contact(o)
+                names.append(name)
+                emails.append(email)
+                phone.append(phone_no)
 
-            participants.append(len(self.get_participant_positions().filter(order=o)))
-
-        return {
-            "phone": phone,
-            "names": names,
-            "emails": emails,
-            "participants": participants,
-        }
+                participants.append(
+                    len(self.get_participant_positions().filter(order=o))
+                )
+        except Exception as e:
+            logger.error(e)
+        finally:
+            return {
+                "phone": phone,
+                "names": names,
+                "emails": emails,
+                "participants": participants,
+            }
 
     def get_participant_positions(self):
 
