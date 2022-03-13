@@ -164,7 +164,7 @@ def format_as_table(ep):
     header = "<tr> <th>Name</th> <th>Email</th> <th>Telefonnummer</th> <th>Gruppengröße</th> </tr>"
 
     rows = [
-        f"<tr> <td>{n} </td> <td>{e}  </td> <td>{p}  </td> <td>{pa}  </td> </tr>"
+        f"<tr> <td>  {n}&nbsp;&nbsp;</td> <td>  {e}&nbsp;&nbsp;</td> <td>  {p}&nbsp;&nbsp;</td> <td>  {pa}&nbsp;&nbsp;</td> </tr>"
         for n, e, p, pa in zip(
             contact_info.get("names"),
             contact_info.get("emails"),
