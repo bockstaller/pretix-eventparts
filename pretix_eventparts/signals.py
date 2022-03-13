@@ -8,11 +8,27 @@ from django.utils.translation import gettext_lazy as _
 from django_scopes import scope
 from i18nfield.forms import LazyI18nString
 from pretix.base.settings import settings_hierarkey
-from pretix.base.signals import layout_text_variables, logentry_display
+from pretix.base.signals import (
+    layout_text_variables,
+    logentry_display,
+    register_data_exporters,
+)
 from pretix.control import signals
 from pretix.presale.signals import order_info, sass_postamble
-
+from pretix.base.email import (
+    SimpleFunctionalMailTextPlaceholder,
+    register_mail_placeholders,
+)
 from pretix_eventparts.models import EventPart
+from django.core.exceptions import ObjectDoesNotExist
+
+
+@receiver(register_data_exporters, dispatch_uid="voco_postexporter")
+def register_post_exporter(sender, **kwargs):
+    from .exporter import ProjectLists
+
+    return ProjectLists
+
 
 settings_hierarkey.add_default(
     key="eventparts__public_name", default_type=LazyI18nString, value="Eventpart"
@@ -139,6 +155,34 @@ def logentry_display_f(logentry, **kwargs):
     return None
 
 
+def format_as_table(ep):
+    if ep is None:
+        return ""
+
+    contact_info = ep.get_contact_info()
+    start = "<table>"
+    header = "<tr> <th>Name</th> <th>Email</th> <th>Telefonnummer</th> <th>Gruppengröße</th> </tr>"
+
+    rows = [
+        f"<tr> <td>{n} </td> <td>{e}  </td> <td>{p}  </td> <td>{pa}  </td> </tr>"
+        for n, e, p, pa in zip(
+            contact_info.get("names"),
+            contact_info.get("emails"),
+            contact_info.get("phone"),
+            contact_info.get("participants"),
+        )
+    ]
+    end = "</table>"
+    return "".join(
+        [
+            start,
+            header,
+        ]
+        + rows
+        + [end]
+    )
+
+
 @receiver(layout_text_variables, dispatch_uid="pretix_eventparts")
 def ticket_text_variables(**kwargs):
     return {
@@ -251,3 +295,174 @@ def ticket_text_variables(**kwargs):
             .category,
         },
     }
+
+
+def returns_string(model, attribute):
+    try:
+        return getattr(model, attribute)
+    except AttributeError:
+        return ""
+
+
+FirstPartType = SimpleFunctionalMailTextPlaceholder(
+    "1st_part_type",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.START).first(),
+        "type_name",
+    ),
+    sample="1st Eventpart Type",
+)
+
+FirstPartName = SimpleFunctionalMailTextPlaceholder(
+    "1st_part_name",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.START).first(), "name"
+    ),
+    sample="1st Eventpart Name",
+)
+
+FirstPartDescription = SimpleFunctionalMailTextPlaceholder(
+    "1st_part_description",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.START).first(),
+        "description",
+    ),
+    sample="1st Eventpart Description",
+)
+
+FirstPartCategory = SimpleFunctionalMailTextPlaceholder(
+    "1st_part_category",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.START).first(),
+        "category",
+    ),
+    sample="1st Eventpart Category",
+)
+
+SecondPartType = SimpleFunctionalMailTextPlaceholder(
+    "2nd_part_type",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
+        "type_name",
+    ),
+    sample="2nd Eventpart Type",
+)
+
+SecondPartName = SimpleFunctionalMailTextPlaceholder(
+    "2nd_part_name",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.MIDDLE).first(), "name"
+    ),
+    sample="2nd Eventpart Name",
+)
+
+SecondPartDescription = SimpleFunctionalMailTextPlaceholder(
+    "2nd_part_description",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
+        "description",
+    ),
+    sample="2nd Eventpart Description",
+)
+
+SecondPartCategory = SimpleFunctionalMailTextPlaceholder(
+    "2nd_part_category",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.MIDDLE).first(),
+        "category",
+    ),
+    sample="2nd Eventpart Category",
+)
+
+SecondPartParticipants = SimpleFunctionalMailTextPlaceholder(
+    "2nd_part_participants",
+    ["order"],
+    lambda order: format_as_table(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.MIDDLE).first()
+    ),
+    sample=""" <table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Telefonnummer</th>
+    <th>Gruppengröße</th>
+  </tr>
+  <tr>
+    <td>Peter</td>
+    <td>peter@testd.de</td>
+    <td>017....</td>
+    <td>32</td>
+  </tr>
+  
+</table>  """,
+)
+
+ThirdPartType = SimpleFunctionalMailTextPlaceholder(
+    "3rd_part_type",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.END).first(),
+        "type_name",
+    ),
+    sample="3rd Eventpart Type",
+)
+
+ThirdPartName = SimpleFunctionalMailTextPlaceholder(
+    "3rd_part_name",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.END).first(),
+        "name",
+    ),
+    sample="3rd Eventpart Name",
+)
+
+ThirdPartDescription = SimpleFunctionalMailTextPlaceholder(
+    "3rd_part_description",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.END).first(),
+        "description",
+    ),
+    sample="3rd Eventpart Description",
+)
+
+ThirdPartCategory = SimpleFunctionalMailTextPlaceholder(
+    "3rd_part_category",
+    ["order"],
+    lambda order: returns_string(
+        order.eventpart_set.filter(type=EventPart.EventPartTypes.END).first(),
+        "category",
+    ),
+    sample="3rd Eventpart Category",
+)
+
+mail_placeholders = [
+    FirstPartType,
+    FirstPartName,
+    FirstPartDescription,
+    FirstPartCategory,
+    SecondPartType,
+    SecondPartName,
+    SecondPartDescription,
+    SecondPartCategory,
+    SecondPartParticipants,
+    ThirdPartType,
+    ThirdPartName,
+    ThirdPartDescription,
+    ThirdPartCategory,
+]
+
+
+@receiver(register_mail_placeholders, dispatch_uid="eventparts_placeholders")
+def register_mail_renderers(sender, **kwargs):
+
+    return mail_placeholders

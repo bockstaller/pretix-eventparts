@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models.fields import CharField
 from django.utils.translation import gettext_lazy as _
-from django_scopes import ScopedManager
+
 from i18nfield.fields import I18nCharField
-from pretix.base.models import Event, Order
+
+from pretix.base.models import Event, Order, OrderPosition, Question
 from pretix.base.models.base import LoggedModel
 
 
@@ -38,7 +39,55 @@ class EventPart(LoggedModel):
 
     orders = models.ManyToManyField(Order)
 
-    objects = ScopedManager(event="event")
+    # objects = ScopedManager(event="event")
+
+    def get_contact_info(self):
+        phone = []
+        names = []
+        emails = []
+        participants = []
+
+        def contact(o: Order):
+            leader_product_id = 27
+            leader = o.positions.filter(item__id=leader_product_id).first()
+            leader.cache_answers()
+            if leader is None:
+                return ("", "")
+            return (
+                leader.attendee_name,
+                leader.attendee_email,
+                leader.answ.get(mobil_id, ""),
+            )
+
+        mobil_id = (
+            Question.objects.filter(event=self.event).get(identifier="CQEBCKRP").id
+        )
+
+        o: Order
+        for o in self.orders.all():
+            name, email, phone_no = contact(o)
+            names.append(name)
+            emails.append(email)
+            phone.append(phone_no)
+
+            participants.append(len(self.get_participant_positions().filter(order=o)))
+
+        return {
+            "phone": phone,
+            "names": names,
+            "emails": emails,
+            "participants": participants,
+        }
+
+    def get_participant_positions(self):
+
+        return (
+            OrderPosition.objects.filter(item__admission=True)
+            .filter(order__in=self.orders.all())
+            .filter(canceled=False)
+            .exclude(item__id__in=[51, 45, 53])
+            .order_by("-order__code")
+        )
 
     @property
     def type_name(self):
@@ -57,11 +106,9 @@ class EventPart(LoggedModel):
         return x
 
     def used_places(self) -> int:
-        used_places = 0
-        for o in self.orders.all().prefetch_related("positions__item"):
-            for p in o.positions.all():
-                if p.item.admission:
-                    used_places += 1
+
+        used_places = len(self.get_participant_positions())
+
         return used_places
 
     def contacts(self):

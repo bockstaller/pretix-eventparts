@@ -1,5 +1,7 @@
 {% extends "pretixcontrol/items/base.html" %}
 {% load i18n %}
+{% load bootstrap3 %}
+{% load order_overview %}
 {% block title %}{% trans "Eventparts" %}{% endblock %}
 {% block inside %}
     <h1>{% trans "Eventparts" %}</h1>
@@ -52,6 +54,18 @@
                             {{e.type_name}}
                         </td>
                         <td class="text-right flip">
+                            <div id="voco-projectlists">
+                                <form action="{% url "control:event.orders.export.do" event=request.event.slug organizer=request.organizer.slug %}"
+                                        method="post" class="form-horizontal" data-asynctask data-asynctask-download data-asynctask-long>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="exporter" value="voco-projectlists" />
+                                    <input type="hidden" name="voco-projectlists-_format" id="id_voco-projectlists-_format" value="xlsx"/>
+                                    <input type="hidden" name="voco-projectlists-eventpart" id="id_voco-projectlists-eventpart" value={{e.id}}>
+                                    <button class="btn btn-primary pull-right flip" type="submit">
+                                        <span class="icon icon-upload"></span> Export
+                                    </button>
+                                </form>
+                                </div>
                             <a href="{% url "plugins:pretix_eventparts:eventpart.edit" organizer=request.event.organizer.slug event=request.event.slug eventpart=e.id %}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
                             <a href="{% url "plugins:pretix_eventparts:eventpart.create" organizer=request.event.organizer.slug event=request.event.slug %}?copy_from={{ e.id }}"
                                class="btn btn-sm btn-default" title="{% trans "Clone" %}" data-toggle="tooltip">
