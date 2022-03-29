@@ -54,10 +54,11 @@ class EventPart(LoggedModel):
 
         def contact(o: Order):
             leader_product_id = 27
-            leader = o.positions.filter(item__id=leader_product_id).first()
-            leader.cache_answers()
-            if leader is None:
+            try:
+                leader = o.positions.get(item__id=leader_product_id)
+            except OrderPosition.DoesNotExist:
                 return ("", "")
+            leader.cache_answers()
             return (
                 leader.attendee_name,
                 leader.attendee_email,
@@ -70,7 +71,7 @@ class EventPart(LoggedModel):
             )
 
             o: Order
-            for o in self.orders.all():
+            for o in self.orders.exclude(status=Order.STATUS_CANCELED).all():
                 name, email, phone_no = contact(o)
                 names.append(name)
                 emails.append(email)
